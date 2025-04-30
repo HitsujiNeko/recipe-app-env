@@ -6,6 +6,7 @@ from rest_framework import status
 from .serializers import RecipeSerializer
 from .models import Ingredient, Category, Recipe
 from .forms import RecipeForm
+from .utils import filter_recipes_by_criteria
 import logging
 logger = logging.getLogger('django')
 
@@ -115,14 +116,8 @@ class RecipeSuggestionView(APIView):
 
             selected_category = request.data.get('category', None)
 
-            recipes = Recipe.objects.all()
-
-            if selected_ingredients:
-                for ingredient_id in selected_ingredients:
-                    recipes = recipes.filter(ingredients__id=ingredient_id)
-
-            if selected_category:
-                recipes = recipes.filter(categories__id=selected_category)
+            # Utility function to filter recipes
+            recipes = filter_recipes_by_criteria(selected_ingredients, selected_category)
 
             return render(request, self.template_name, {
                 "recipes": recipes,

@@ -26,25 +26,18 @@
       </div>
       <div class="mb-3">
         <label for="ingredients" class="form-label">使用する食材</label>
-        <select class="form-control" id="ingredients" name="ingredients" multiple>
+        <select id="ingredients" name="ingredients" class="form-control" multiple>
           {% for ingredient in ingredients %}
-            <option value="{{ ingredient.id }}" data-reading="{{ ingredient.reading }}">{{ ingredient.name }}</option>
+            <option value="{{ ingredient.id }}"
+                    data-sub-search="{{ ingredient.reading }}">{{ ingredient.name }}</option>
           {% endfor %}
         </select>
-        <div id="selected-ingredients" class="mt-2">
-          <h6>選択された食材:</h6>
-          <div id="ingredient-badges" class="d-flex flex-wrap gap-2"></div>
-        </div>
       </div>
       <div class="mb-3">
         <label for="categories" class="form-label">カテゴリ</label>
         <select class="form-control" id="categories" name="categories">
           {% for category in categories %}<option value="{{ category.id }}">{{ category.name }}</option>{% endfor %}
         </select>
-        <div id="selected-categories" class="mt-2">
-          <h6>選択されたカテゴリ:</h6>
-          <div id="category-badges" class="d-flex flex-wrap gap-2"></div>
-        </div>
       </div>
       <div class="mb-3">
         <label for="notes" class="form-label">メモ</label>
@@ -111,48 +104,6 @@
             alert(`通信エラーが発生しました: ${error.message}`);
         }
     });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const ingredientSelect = document.getElementById('ingredients');
-        const selectedIngredientsDiv = document.getElementById('selected-ingredients');
-        const categorySelect = document.getElementById('categories');
-        const selectedCategoriesDiv = document.getElementById('selected-categories');
-
-        // 選択された食材を表示
-        ingredientSelect.addEventListener('change', function() {
-            const selectedOptions = Array.from(ingredientSelect.selectedOptions).map(option => option.textContent);
-            selectedIngredientsDiv.textContent = `選択された食材: ${selectedOptions.join(', ')}`;
-        });
-
-        // 選択されたカテゴリを表示
-        categorySelect.addEventListener('change', function() {
-            const selectedOptions = Array.from(categorySelect.selectedOptions).map(option => option.textContent);
-            selectedCategoriesDiv.textContent = `選択されたカテゴリ: ${selectedOptions.join(', ')}`;
-        });
-    });
   </script>
-  <script src="/static/js/ingredient_search.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const ingredientSelect = document.getElementById('ingredients');
-        const searchBox = document.createElement('input');
-        searchBox.type = 'text';
-        searchBox.placeholder = '食材を検索';
-        searchBox.classList.add('form-control', 'mb-3');
-
-        ingredientSelect.parentNode.insertBefore(searchBox, ingredientSelect);
-
-        searchBox.addEventListener('input', function() {
-            const filter = searchBox.value;
-            const options = ingredientSelect.options;
-
-            for (let i = 0; i < options.length; i++) {
-                const option = options[i];
-                const text = option.textContent;
-                const reading = option.getAttribute('data-reading') || '';
-                option.style.display = text.includes(filter) || reading.includes(filter) ? '' : 'none';
-            }
-        });
-    });
-  </script>
+  <script src="/static/js/select2_custom.js"></script>
 {% endblock content %}

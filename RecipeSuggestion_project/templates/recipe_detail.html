@@ -76,27 +76,15 @@
             </div>
             <div class="mb-3">
               <label for="ingredient-search" class="form-label">食材検索</label>
-              <input type="text"
-                     id="ingredient-search"
-                     class="form-control"
-                     placeholder="食材を検索">
-              <select id="ingredients"
-                      name="ingredients"
-                      class="form-control mt-2"
-                      multiple>
+              <select id="ingredients" name="ingredients" class="form-control" multiple>
                 {% for ingredient in form.ingredients.field.queryset %}
                   <option value="{{ ingredient.id }}"
-                          data-reading="{{ ingredient.reading }}"
+                          data-sub-search="{{ ingredient.reading }}"
                           {% if ingredient.id|stringformat:"d" in form.ingredients.value|stringformat:"d" %}selected{% endif %}>
                     {{ ingredient.name }}
                   </option>
                 {% endfor %}
               </select>
-            </div>
-            <div class="mb-3">
-              <div id="selected-ingredients" class="d-flex flex-wrap gap-2">
-                {% for ingredient in recipe.ingredients.all %}<span>{{ ingredient.name }}</span>{% endfor %}
-              </div>
             </div>
           </div>
           <div class="col-12">
@@ -137,6 +125,7 @@ document.getElementById('delete-recipe-button').addEventListener('click', functi
   }
 });
       </script>
+      <script src="/static/js/select2_custom.js"></script>
       <script src="/static/js/update_form.js"></script>
       <script src="/static/js/ingredient_search.js"></script>
     </div>

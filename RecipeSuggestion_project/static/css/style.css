@@ -1,3 +1,75 @@
+/* フッターのデザイン */
+footer {
+  background: #222;
+  color: #fff;
+  padding: 2rem 0 1rem 0;
+  font-size: 1rem;
+}
+footer a {
+  color: #ffc107;
+  text-decoration: underline;
+  margin: 0 0.5em;
+}
+footer a:hover {
+  color: #fff3cd;
+  text-decoration: none;
+}
+footer p {
+  margin-bottom: 0.5rem;
+}
+
+/* ヘッダーのデザイン */
+header {
+  background: linear-gradient(90deg, #ffc107 60%, #ffd965 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+header h1 {
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+}
+header .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+header .nav-link:hover {
+  color: #212529 !important;
+  text-decoration: underline;
+}
+
+/* メインコンテンツの余白調整 */
+main.container {
+  min-height: 60vh;
+}
+
+/* ボタンのカスタマイズ */
+.btn-primary {
+  background: #ff9800;
+  border: none;
+}
+.btn-primary:hover {
+  background: #ffa726;
+}
+.btn-success {
+  background: #43a047;
+  border: none;
+}
+.btn-success:hover {
+  background: #66bb6a;
+}
+
+/* セクション見出し */
+section > h2.h4 {
+  border-left: 6px solid #ffc107;
+  padding-left: 0.7em;
+  margin-bottom: 0.7em;
+  font-weight: bold;
+  color: #ff9800;
+  background: #fffde7;
+}
+
 /* レシピ一覧ページのスタイル */
 .card-list {
   display: flex;

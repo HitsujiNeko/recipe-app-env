@@ -1,7 +1,10 @@
 import logging
 import re
+from .models import Recipe
+
 logger = logging.getLogger('django')
 
+# レシピ追加機能
 def extract_youtube_thumbnail(url):
     """
     YouTubeのURLからサムネイル画像のURLを生成する関数。
@@ -16,3 +19,19 @@ def extract_youtube_thumbnail(url):
         return thumbnail_url
     logger.warning("Failed to extract video ID from URL.")
     return None
+
+# レシピ提案機能
+def filter_recipes_by_criteria(selected_ingredients, selected_category):
+    """
+    指定された食材とカテゴリに基づいてレシピをフィルタリングする関数。
+    """
+    recipes = Recipe.objects.all()
+
+    if selected_ingredients:
+        for ingredient_id in selected_ingredients:
+            recipes = recipes.filter(ingredients__id=ingredient_id)
+
+    if selected_category:
+        recipes = recipes.filter(categories__id=selected_category)
+
+    return recipes
