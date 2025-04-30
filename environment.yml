@@ -1,0 +1,16 @@
+name: base # Anacondaのデフォルト環境名
+channels:
+  - defaults
+dependencies:
+  - django # Djangoを追加
+  - psycopg2 # PostgreSQL用ドライバ
+  - pip # pipを追加
+  - pip:
+      - djangorestframework # REST API構築用
+      - django-cors-headers # CORS設定用
+      - django-environ # 環境変数管理
+      - django-debug-toolbar # デバッグツールバー
+      - django-extensions # Django 拡張機能
+      - graphviz # E-R図作成に用いる
+      - pytube #Webアプリ開発に利用
+      - djlint #Djangoのフォーマット
