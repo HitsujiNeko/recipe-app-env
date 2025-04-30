@@ -1,0 +1,115 @@
+/* レシピ一覧ページのスタイル */
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card-list .card {
+  width: 300px;
+  margin: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-list .card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-list .card .card-body {
+  padding: 15px;
+  text-align: center;
+}
+
+/* レシピ提案ページのスタイル */
+.suggestion-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.suggestion-form .form-label {
+  font-weight: bold;
+}
+
+.suggestion-form .btn {
+  width: 100%;
+}
+
+/* レシピ追加ページのスタイル */
+.add-recipe-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.add-recipe-form .form-label {
+  font-weight: bold;
+}
+
+.add-recipe-form .btn {
+  width: 100%;
+}
+
+/* レシピ詳細ページのスタイル */
+.img-thumbnail {
+  max-width: 200px;
+}
+
+/* 更新フォームのスタイルを2カラムレイアウトに調整 */
+.update-recipe-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.update-recipe-form .col-md-6 {
+  flex: 1;
+  min-width: 300px;
+}
+
+.update-recipe-form .col-12 {
+  width: 100%;
+}
+
+/* エラー表示のスタイル */
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* レシピ詳細ページのカードスタイル */
+.recipe-detail {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.recipe-detail img {
+  width: 90%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.recipe-detail .card-body {
+  width: 50%;
+}

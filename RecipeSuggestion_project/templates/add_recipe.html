@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center">レシピ追加</h1>
+    <form id="add-recipe-form" class="mt-4 add-recipe-form">
+      <div class="mb-3">
+        <label for="recipe-name" class="form-label">レシピ名</label>
+        <input type="text"
+               class="form-control"
+               id="recipe-name"
+               name="name"
+               required>
+      </div>
+      <div class="mb-3">
+        <label for="youtube-url" class="form-label">YouTube URL</label>
+        <input type="url"
+               class="form-control"
+               id="youtube-url"
+               name="youtube_url"
+               required>
+      </div>
+      <div class="mb-3">
+        <label for="thumbnail" class="form-label">サムネイル画像</label>
+        <input type="text" class="form-control" id="thumbnail" name="thumbnail">
+      </div>
+      <div class="mb-3">
+        <label for="ingredients" class="form-label">使用する食材</label>
+        <select class="form-control" id="ingredients" name="ingredients" multiple>
+          {% for ingredient in ingredients %}
+            <option value="{{ ingredient.id }}" data-reading="{{ ingredient.reading }}">{{ ingredient.name }}</option>
+          {% endfor %}
+        </select>
+        <div id="selected-ingredients" class="mt-2">
+          <h6>選択された食材:</h6>
+          <div id="ingredient-badges" class="d-flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="categories" class="form-label">カテゴリ</label>
+        <select class="form-control" id="categories" name="categories">
+          {% for category in categories %}<option value="{{ category.id }}">{{ category.name }}</option>{% endfor %}
+        </select>
+        <div id="selected-categories" class="mt-2">
+          <h6>選択されたカテゴリ:</h6>
+          <div id="category-badges" class="d-flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="notes" class="form-label">メモ</label>
+        <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-warning">追加</button>
+    </form>
+  </div>
+  <script>
+    function getCSRFToken() {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    document.getElementById('add-recipe-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = {
+            name: formData.get('name'),
+            url: formData.get('youtube_url'),
+            thumbnail: formData.get('thumbnail'),
+            ingredients: formData.getAll('ingredients'),
+            categories: formData.getAll('categories'),
+            notes: formData.get('notes')
+        };
+
+        if (!data.name || !data.url || !data.ingredients.length || !data.categories.length) {
+            alert('必須フィールドをすべて入力してください。');
+            return;
+        }
+
+        try {
+            const response = await fetch('/recipes/add-recipe/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken(),
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('レシピが正常に追加されました！');
+                event.target.reset();
+            } else {
+                const errorData = await response.json();
+                if (errorData.errors) {
+                    const errorMessages = Object.entries(errorData.errors)
+                        .map(([field, messages]) => `${field}: ${messages.join(', ')}`)
+                        .join('\n');
+                    alert(`エラーが発生しました:\n${errorMessages}`);
+                } else {
+                    alert(`エラーが発生しました: ${errorData.error || errorData.message || '不明なエラー'}`);
+                }
+            }
+        } catch (error) {
+            alert(`通信エラーが発生しました: ${error.message}`);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const ingredientSelect = document.getElementById('ingredients');
+        const selectedIngredientsDiv = document.getElementById('selected-ingredients');
+        const categorySelect = document.getElementById('categories');
+        const selectedCategoriesDiv = document.getElementById('selected-categories');
+
+        // 選択された食材を表示
+        ingredientSelect.addEventListener('change', function() {
+            const selectedOptions = Array.from(ingredientSelect.selectedOptions).map(option => option.textContent);
+            selectedIngredientsDiv.textContent = `選択された食材: ${selectedOptions.join(', ')}`;
+        });
+
+        // 選択されたカテゴリを表示
+        categorySelect.addEventListener('change', function() {
+            const selectedOptions = Array.from(categorySelect.selectedOptions).map(option => option.textContent);
+            selectedCategoriesDiv.textContent = `選択されたカテゴリ: ${selectedOptions.join(', ')}`;
+        });
+    });
+  </script>
+  <script src="/static/js/ingredient_search.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ingredientSelect = document.getElementById('ingredients');
+        const searchBox = document.createElement('input');
+        searchBox.type = 'text';
+        searchBox.placeholder = '食材を検索';
+        searchBox.classList.add('form-control', 'mb-3');
+
+        ingredientSelect.parentNode.insertBefore(searchBox, ingredientSelect);
+
+        searchBox.addEventListener('input', function() {
+            const filter = searchBox.value;
+            const options = ingredientSelect.options;
+
+            for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                const text = option.textContent;
+                const reading = option.getAttribute('data-reading') || '';
+                option.style.display = text.includes(filter) || reading.includes(filter) ? '' : 'none';
+            }
+        });
+    });
+  </script>
+{% endblock content %}

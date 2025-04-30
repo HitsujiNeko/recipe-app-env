@@ -1,0 +1,36 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/anaconda
+
+{
+  "name": "RecipeSuggestionApp",
+  "build": {
+    "context": "..",
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "python --version", // コンテナ作成後に Python バージョンを確認
+  "remoteUser": "root", // 必要に応じて root ユーザーで接続
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "GitHub.copilot",
+        "GitHub.copilot-chat",
+        "eamodio.gitlens",
+        "ms-toolsai.jupyter",
+        "MS-CEINTL.vscode-language-pack-ja",
+        "streetsidesoftware.code-spell-checker",
+        "ionutvmi.path-autocomplete",
+        "ms-azuretools.vscode-docker",
+        "batisteo.vscode-django",
+        "monosans.djlint",
+        "smelukov.vscode-csstree",
+        "pranaygp.vscode-css-peek",
+        "mechatroner.rainbow-csv",
+        "alexcvzz.vscode-sqlite"
+      ]
+    }
+  }
+}

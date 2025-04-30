@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="text-center">レシピ提案アプリへようこそ</h1>
+    <p class="text-center mt-3">このアプリでは、食材やカテゴリを選んでレシピを提案したり、新しいレシピを追加したりできます。</p>
+    <div class="text-center mt-4">
+      <a href="{% url 'recipe_list' %}" class="btn btn-primary btn-lg mx-2">レシピ一覧を見る</a>
+      <a href="{% url 'add_recipe' %}" class="btn btn-success btn-lg mx-2">新しいレシピを追加する</a>
+    </div>
+  </div>
+{% endblock content %}

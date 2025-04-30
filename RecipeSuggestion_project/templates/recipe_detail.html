@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">レシピ詳細</h1>
+      <div class="card mt-4 recipe-detail">
+        <div class="flex-shrink-0">
+          <img src="{{ recipe.thumbnail }}"
+               class=" recipe-thumbnail"
+               alt="{{ recipe.name }}"
+               width="100%"
+               height="auto">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ recipe.name }}</h5>
+          <p class="card-text">
+            <strong>カテゴリ:</strong>
+            {% for category in recipe.categories.all %}
+              {{ category.name }}
+              {% if not forloop.last %},{% endif %}
+            {% endfor %}
+          </p>
+          <p class="card-text">
+            <strong>使用する食材:</strong>
+            {% for ingredient in recipe.ingredients.all %}
+              {{ ingredient.name }}
+              {% if not forloop.last %},{% endif %}
+            {% endfor %}
+          </p>
+          <p class="card-text">
+            <strong>メモ:</strong> {{ recipe.notes }}
+          </p>
+          <a href="{{ recipe.url }}" class="btn btn-warning mt-3" target="_blank">YouTubeで見る</a>
+        </div>
+      </div>
+      <br>
+      <button class="btn btn-secondary mt-4"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#updateForm"
+              aria-expanded="false"
+              aria-controls="updateForm">更新フォームを表示</button>
+      <div class="collapse mt-2" id="updateForm">
+        <form method="post" class="update-recipe-form row">
+          {% csrf_token %}
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="id_name" class="form-label">レシピ名</label>
+              {{ form.name }}
+            </div>
+            <div class="mb-3">
+              <label for="id_url" class="form-label">YouTube URL</label>
+              {{ form.url }}
+            </div>
+            <div class="mb-3">
+              <label for="id_thumbnail" class="form-label">サムネイル画像</label>
+              {{ form.thumbnail }}
+            </div>
+            <div class="mb-3">
+              <label for="id_notes" class="form-label">メモ</label>
+              {{ form.notes }}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="id_categories" class="form-label">カテゴリを選択</label>
+              <select id="id_categories" name="categories" class="form-control" multiple>
+                {% for category in form.categories.field.queryset %}
+                  <option value="{{ category.id }}"
+                          {% if category.id|stringformat:"d" in form.categories.value|stringformat:"d" %}selected{% endif %}>
+                    {{ category.name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="ingredient-search" class="form-label">食材検索</label>
+              <input type="text"
+                     id="ingredient-search"
+                     class="form-control"
+                     placeholder="食材を検索">
+              <select id="ingredients"
+                      name="ingredients"
+                      class="form-control mt-2"
+                      multiple>
+                {% for ingredient in form.ingredients.field.queryset %}
+                  <option value="{{ ingredient.id }}"
+                          data-reading="{{ ingredient.reading }}"
+                          {% if ingredient.id|stringformat:"d" in form.ingredients.value|stringformat:"d" %}selected{% endif %}>
+                    {{ ingredient.name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <div id="selected-ingredients" class="d-flex flex-wrap gap-2">
+                {% for ingredient in recipe.ingredients.all %}<span>{{ ingredient.name }}</span>{% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="form-errors text-danger mb-3"></div>
+            {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">更新</button>
+          </div>
+        </form>
+      </div>
+      <button class="btn btn-danger mt-4"
+              id="delete-recipe-button"
+              data-recipe-id="{{ recipe.id }}">レシピを削除</button>
+      <script>
+document.getElementById('delete-recipe-button').addEventListener('click', function() {
+  const recipeId = this.getAttribute('data-recipe-id');
+  if (confirm('本当にこのレシピを削除しますか？')) {
+    fetch(`/recipes/${recipeId}/delete/`, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRFToken': getCSRFToken(),
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          alert('レシピが削除されました。');
+          window.location.href = '/recipes/';
+        } else {
+          return response.json().then(data => {
+            throw new Error(data.error || '削除に失敗しました。');
+          });
+        }
+      })
+      .catch(error => {
+        alert(`エラーが発生しました: ${error.message}`);
+      });
+  }
+});
+      </script>
+      <script src="/static/js/update_form.js"></script>
+      <script src="/static/js/ingredient_search.js"></script>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+{% endblock content %}
