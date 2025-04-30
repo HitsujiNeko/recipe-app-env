@@ -1,0 +1,28 @@
+# Python関連
+__pycache__/
+*.pyc
+*.pyo
+
+# Django関連
+db.sqlite3
+media/
+
+# VSCode関連
+.vscode/
+.devcontainer/
+
+# 環境ファイル
+environment.yml
+
+# ログファイル
+debug.log
+
+# 静的ファイル
+staticfiles/
+
+# その他
+*.log
+*.bak
+*.swp
+*.tmp
+
