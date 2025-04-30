@@ -6,10 +6,6 @@ __pycache__/
 # Django関連
 media/
 
-# VSCode関連
-.vscode/
-.devcontainer/
-
 
 # ログファイル
 debug.log
