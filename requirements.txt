@@ -9,3 +9,4 @@ django-extensions
 graphviz
 pytube
 djlint
+gunicorn
