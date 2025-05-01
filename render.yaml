@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: recipe-suggestion-app
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      bash build.sh
+    startCommand: cd RecipeSuggestion_project && gunicorn RecipeSuggestion_project.wsgi
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: RecipeSuggestion_project.settings
