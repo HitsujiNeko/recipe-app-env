@@ -1,0 +1,11 @@
+django
+psycopg2
+# --- pipでインストールする追加パッケージ ---
+djangorestframework
+django-cors-headers
+django-environ
+django-debug-toolbar
+django-extensions
+graphviz
+pytube
+djlint
