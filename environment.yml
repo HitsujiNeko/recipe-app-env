@@ -14,3 +14,5 @@ dependencies:
       - graphviz # E-R図作成に用いる
       - pytube #Webアプリ開発に利用
       - djlint #Djangoのフォーマット
+      # whitenoiseはcondaでなくpipでインストール
+      - whitenoise
