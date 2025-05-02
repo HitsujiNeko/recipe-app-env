@@ -162,7 +162,3 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ),
 }
-
-SUPERUSER_NAME = env("SUPERUSER_NAME")
-SUPERUSER_EMAIL = env("SUPERUSER_EMAIL")
-SUPERUSER_PASSWORD = env("SUPERUSER_PASSWORD")
