@@ -6,6 +6,8 @@ __pycache__/
 # Django関連
 media/
 
+# 本番環境用設定
+.env
 
 # ログファイル
 debug.log
